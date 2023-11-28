@@ -1,0 +1,14 @@
+﻿@page "/MainPage"
+<button @onclick="LogIn">Зайти</button>
+<button @onclick="SignUp">Зарегестрироваться</button>
+@inject NavigationManager NavigationManager
+@code{
+    private void LogIn()
+    {
+        NavigationManager.NavigateTo("/Login");
+    }
+    private void SignUp()
+    {
+        NavigationManager.NavigateTo("/SignUp");
+    }
+}

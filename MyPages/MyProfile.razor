@@ -1,0 +1,41 @@
+﻿@* @using Microsoft.Extensions.Configuration;
+@using System.Text.RegularExpressions;
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Forms.Extensions *@
+
+
+@page "/MyProfile"
+<div class="circle-container">
+    <br>
+    @if (!string.IsNullOrEmpty(profileImage))
+{
+    <img src="/sample-data/tochtonado.jpg" alt="Фото" class="rounded-circle" />
+}
+    <br />
+</div>
+<div>
+    <InputFile @ref="fileInput" />
+    <button @onclick="AddImage">Добавить изображение</button>
+</div>
+
+@code{
+    private string profileImage;
+    private InputFile fileInput;
+    private async Task AddImage(InputFileChangeEventArgs e)
+    {
+        if (fileInput != null && fileInput.HasFiles)
+        {
+            var file = fileInput.Files[0];
+
+            // Пример: загрузка изображения в память и отображение его
+            using (var stream = file.OpenReadStream())
+            {
+                var buffer = new byte[file.Size];
+                await stream.ReadAsync(buffer, 0, (int)file.Size);
+
+                // Пример: сохранение изображения в строку для отображения
+                profileImage = $"data:image/png;base64,{Convert.ToBase64String(buffer)}";
+            }
+        }
+    }
+}
